@@ -34,8 +34,8 @@ def SingleCharFreq(s):
     maxScore = 0
     maxString = ""
     maxKey = '' 
-    # Try key from 'a' to 'z'
-    for key in range(ord('A'),ord('z')+1):
+    # Try key from all character in ASCII
+    for key in range(0,256):
         # XOR against a char ---> a char is two hex number(256) ---> take two hex number a time
         decString = ""
         decScore = 0
@@ -52,26 +52,23 @@ def SingleCharFreq(s):
             maxString = decString
             maxKey = chr(key)
     #print("The key is: " + maxKey + " and the decoded string is:")
-    return [maxString , maxScore]
+    return [maxString , maxScore, maxKey]
 
 ################################
 
 def SingleCharXOR(file , num):
-    num = num * 2 #Two hex numbers is a Char
-    curString = file[0:num-3]
-    ans = ["" , 0]
-    
-    for i in range(num - 2,len(file),2):
-        if i+1 >= len(file): break
-        curString = curString + file[i] + file[i+1]
-        #print(ch)
-        curString = curString[2:]
-        tmp = SingleCharFreq(curString)
-        if tmp[1] > ans[1] : ans = tmp
+    ans = ["" , 0, ""]
+    for line in file:
+        if line[-1] == '\n' : # eliminate \n
+            line = line[:-1]
+        tmp = SingleCharFreq(line)
+        if tmp[1] > ans[1] : # If this line has bigger score
+            ans = tmp
     return ans
 ################################
 
 num = 60
-file = open("4.txt").read()
+file = open("4.txt")
 ans = SingleCharXOR(file, num)
+print("The key is : " + ans[2] + " , and the decoded string is : ")
 print(ans[0])

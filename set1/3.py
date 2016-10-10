@@ -36,8 +36,8 @@ def SingleCharFreq(s):
     maxScore = 0
     maxString = ""
     maxKey = '' 
-    # Try key from 'a' to 'z'
-    for key in range(ord('A'),ord('z')+1):
+    # Try key from all character in ASCII
+    for key in range(0,256):
         # XOR against a char ---> a char is two hex number(256) ---> take two hex number a time
         decString = ""
         decScore = 0
